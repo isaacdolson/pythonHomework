@@ -1,7 +1,7 @@
 import os
 import csv
 
-#trying to read in the file
+#read in the file
 csvPath = os.path.normpath(os.path.join("election_data.csv"))
 numOfVotes = 0
 #making a dictionary for counting votes.
@@ -38,15 +38,25 @@ for name in candidateNumOfVotes.keys():
         checker = candidateNumOfVotes[name]
         tempNameStr = name
 
-#Time to print, add file stuff once learnt
+#Time to print, add file stuff
+pollFile = open("pyPollFile.txt", "w")
 print("Election Results")
+pollFile.write("Election Results"+ "\n")
 print("-------------------------")
+pollFile.write("-------------------------\n")
 print("Total Votes: " + str(numOfVotes))
+pollFile.write("Total Votes: " + str(numOfVotes)+ "\n")
 print("-------------------------")
+pollFile.write("-------------------------\n")
 #from https://thispointer.com/python-how-to-add-append-key-value-pairs-in-dictionary-using-dict-update/
 for(key, value) in candidateNumOfVotes.items():
     print(key + ": " + str(round(100*value/numOfVotes,4)) + "% (" + str(value) + ")")
+    pollFile.write(key + ": " + str(round(100*value/numOfVotes,4)) + "% (" + str(value) + ")" + "\n")
 
 print("-------------------------")
+pollFile.write("-------------------------\n")
 print("Winner: " + tempNameStr)
+pollFile.write("Winner: " + tempNameStr + "\n")
 print("-------------------------")
+pollFile.write("-------------------------")
+pollFile.close()
