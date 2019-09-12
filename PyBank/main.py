@@ -17,8 +17,12 @@ with open(csvPath, newline='') as csvFile:
     csvReader = csv.reader(csvFile, delimiter=',')
     #hopefully skipping the header.
     next(csvReader)
-    changes = csvReader[1]
+    #changes = csvReader[1]
     for row in csvReader:
+        #seems like there should be a better way to do this.
+        if monthsOfData > 0:
+            changes += (lastMonth - int(row[1]))
+        lastMonth = int(row[1])
         monthsOfData +=1
         netProfit += int(row[1])
         #seems like there should be a better way to do this,
@@ -36,6 +40,30 @@ print("Financial Analysis")
 print("-------------------------")
 print(f"Total Months: {monthsOfData}")
 print(f"Total: ${netProfit}")
+print(f"Average Change: ${round(-changes/monthsOfData, 3)}")
 #average change omited, for cleaverness
 print(f"Greatest Increase in Profits: {increaseMonth} ({increaseValue})")
 print(f"Greatest Decrease in Profits: {decreaseMonth} ({decreaseValue})")
+#printing to file
+bankFile = open("pyBankFile.txt", "w")
+
+bankFile.write("Financial Analysis\n")
+bankFile.write("-------------------------\n")
+bankFile.write(f"Total Months: {monthsOfData}\n")
+bankFile.write(f"Total: ${netProfit}\n")
+bankFile.write(f"Average Change: ${round(-changes/monthsOfData, 3)}\n")
+bankFile.write(f"Greatest Increase in Profits: {increaseMonth} ({increaseValue})\n")
+bankFile.write(f"Greatest Decrease in Profits: {decreaseMonth} ({decreaseValue})")
+bankFile.close()
+# bankFilePrint = os.path.join("pyBankFile.txt")
+# with open(bankFilePrint, mode='w', newline='') as csvTxt:
+    
+#     csvWriter = csv.writer(csvTxt, delimiter = ' ')
+
+#     csvWriter.writerow(TestString)
+#     csvWriter.writerow("-------------------------")
+#     csvWriter.writerow(f"Total Months: {monthsOfData}")
+#     csvWriter.writerow(f"Total: ${netProfit}")
+#     csvWriter.writerow(f"Average Change: ${round(changes/monthsOfData, 3)}")
+#     csvWriter.writerow(f"Greatest Increase in Profits: {increaseMonth} ({increaseValue})")
+#     csvWriter.writerow(f"Greatest Decrease in Profits: {decreaseMonth} ({decreaseValue})")
